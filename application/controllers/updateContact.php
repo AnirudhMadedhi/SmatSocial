@@ -45,25 +45,27 @@ class updateContact extends REST_Controller {
         else if($type == "CRM")
         {
             $id = $this->input->post('contact_id');
-            $url="https://techdeccan.freshsales.io/api/contacts/'.$id.'";
+            $url="https://techdeccan.freshsales.io/api/contacts/$id";
             $access="TRcytqeHoqGV-49FGcKn6Q";
             $newinput['first_name']=$this->input->post('first_name');
             $newinput['last_name']=$this->input->post('last_name');
             $newinput['email']=$this->input->post('email');
             $newinput['mobile_number']=$this->input->post('mobile_number');
+            $newinput['custom_field']=json_encode(array("cf_is_active" => false));
             $data = array("contact" => $newinput);
             $data_string = json_encode($data);
             $ch = curl_init($url);                                                                      
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); 
-            curl_setopt($ch, CURLOPT_FAILONERROR, true);                                                                    
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
                 'Content-Type: application/json', 
                 'Authorization: Token token='.$access,                                                                               
                 'Content-Length: ' . strlen($data_string))                                                                       
-                                );                                                                                                                   
+                                );    
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+            curl_setopt($ch, CURLOPT_FAILONERROR, true);                                                                    
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
             $result = curl_exec($ch);
+            //echo "here";
             print_r($result);
         }
 	}

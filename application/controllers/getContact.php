@@ -44,17 +44,18 @@ class getContact extends REST_Controller {
         
         else if($type == "CRM")
         {
-            $url="https://domain.freshsales.io/api/contacts/.$id.?include=sales_accounts";
+            $url="https://domain.freshsales.io/api/contacts/$id?include=sales_accounts";
+            //echo $url;
             $access="TRcytqeHoqGV-49FGcKn6Q";
-            $header[] = 'Content-type:  application/json';
+            $header[] = 'Content-Type:  application/json';
             $header[] = 'Authorization: Token token='.$access;
             $ch = curl_init();
-            $timeout = 5;
+            //$timeout = 5;
             curl_setopt($ch, CURLOPT_HEADER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
             curl_setopt($ch,CURLOPT_URL,$url);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+            //curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
             $data = curl_exec($ch);
             curl_close($ch);
             print_r($data);
